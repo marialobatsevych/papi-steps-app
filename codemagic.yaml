@@ -1,0 +1,28 @@
+workflows:
+  papi_steps_build:
+    name: Papi Steps App
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    environment:
+      vars:
+        PACKAGE_NAME: "com.papisteps.app"
+        NODE_VERSION: 18.18.0
+      node: 18.18.0
+    scripts:
+      - name: Install dependencies
+        script: npm install
+      - name: Build web app
+        script: npm run build
+      - name: Sync with Capacitor
+        script: npx cap sync
+      - name: Build Android
+        script: |
+          npx cap add android
+          cd android
+          ./gradlew assembleDebug
+    artifacts:
+      - android/app/build/outputs/**/*.apk
+    publishing:
+      email:
+        recipients:
+          - marialobatsevych@gmail.com
