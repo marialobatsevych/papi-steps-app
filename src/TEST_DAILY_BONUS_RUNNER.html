@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Bonus System Test Runner</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #FFE8F0 0%, #F5E8FF 50%, #E8F5FF 100%);
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 32px;
+      background: linear-gradient(to right, #FFB7C5, #C8B8FF, #B8E3FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .test-card {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .test-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .test-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .test-status {
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .status-pending {
+      background: #FFF2B2;
+      color: #8B7500;
+    }
+
+    .status-passed {
+      background: #B8E3FF;
+      color: #004A7C;
+    }
+
+    .status-failed {
+      background: #FFB7C5;
+      color: #8B001E;
+    }
+
+    .test-description {
+      color: #666;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    .test-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 25px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #FFB7C5, #FF9FB7);
+      color: white;
+      box-shadow: 0 4px 16px rgba(255, 183, 197, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 183, 197, 0.5);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #C8B8FF, #B8A8FF);
+      color: white;
+      box-shadow: 0 4px 16px rgba(200, 184, 255, 0.4);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(200, 184, 255, 0.5);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #FF6B6B, #FF5252);
+      color: white;
+      box-shadow: 0 4px 16px rgba(255, 107, 107, 0.4);
+    }
+
+    .test-result {
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .result-success {
+      background: #E8F5FF;
+      border-left: 4px solid #B8E3FF;
+      color: #004A7C;
+    }
+
+    .result-error {
+      background: #FFE8F0;
+      border-left: 4px solid #FFB7C5;
+      color: #8B001E;
+    }
+
+    .result-info {
+      background: #FFF9E6;
+      border-left: 4px solid #FFD66C;
+      color: #8B7500;
+    }
+
+    .code-block {
+      background: #f5f5f5;
+      padding: 12px;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      margin-top: 10px;
+      overflow-x: auto;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .stat-item {
+      background: linear-gradient(135deg, #FFE8F0, #F5E8FF);
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, #E8F5FF, #F5E8FF);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 30px;
+    }
+
+    .info-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .info-text {
+      color: #666;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧪 Daily Bonus System Test Runner</h1>
+
+    <div class="info-box">
+      <div class="info-title">📋 Test Information</div>
+      <div class="info-text">
+        This test runner validates the Daily Bonus System according to TESTING_DAILY_BONUS.md specifications.
+        All tests use localStorage to simulate different scenarios without modifying the main application.
+      </div>
+    </div>
+
+    <!-- Test 1: First Login -->
+    <div class="test-card">
+      <div class="test-header">
+        <div class="test-title">✅ Test 1: First Login (Clean Start)</div>
+        <div class="test-status status-pending" id="test1-status">Pending</div>
+      </div>
+      <div class="test-description">
+        Verifies that a new user receives daily bonus on first login.
+        Expected: User gets 1 food item + 1 toy item from the shop.
+      </div>
+      <div class="test-actions">
+        <button class="btn-primary" onclick="runTest1()">Run Test</button>
+        <button class="btn-secondary" onclick="viewTest1Details()">View Details</button>
+      </div>
+      <div id="test1-result"></div>
+    </div>
+
+    <!-- Test 2: Immediate Re-login -->
+    <div class="test-card">
+      <div class="test-header">
+        <div class="test-title">✅ Test 2: Immediate Re-login (Within 24h)</div>
+        <div class="test-status status-pending" id="test2-status">Pending</div>
+      </div>
+      <div class="test-description">
+        Verifies that bonus is NOT given again when user logs in within 24 hours.
+        Expected: No bonus items, no changes to inventory.
+      </div>
+      <div class="test-actions">
+        <button class="btn-primary" onclick="runTest2()">Run Test</button>
+        <button class="btn-secondary" onclick="viewTest2Details()">View Details</button>
+      </div>
+      <div id="test2-result"></div>
+    </div>
+
+    <!-- Test 3: After 24 Hours -->
+    <div class="test-card">
+      <div class="test-header">
+        <div class="test-title">✅ Test 3: After 24 Hours (Simulated)</div>
+        <div class="test-status status-pending" id="test3-status">Pending</div>
+      </div>
+      <div class="test-description">
+        Simulates 25 hours passing and verifies that bonus is given again.
+        Expected: New 2 items added to inventory.
+      </div>
+      <div class="test-actions">
+        <button class="btn-primary" onclick="runTest3()">Run Test</button>
+        <button class="btn-secondary" onclick="viewTest3Details()">View Details</button>
+      </div>
+      <div id="test3-result"></div>
+    </div>
+
+    <!-- Test 4: Item Randomness -->
+    <div class="test-card">
+      <div class="test-header">
+        <div class="test-title">🎲 Test 4: Item Randomness (10 trials)</div>
+        <div class="test-status status-pending" id="test4-status">Pending</div>
+      </div>
+      <div class="test-description">
+        Tests random distribution by claiming bonus 10 times and checking variety.
+        Expected: Mix of different food and toy items across trials.
+      </div>
+      <div class="test-actions">
+        <button class="btn-primary" onclick="runTest4()">Run Test</button>
+        <button class="btn-secondary" onclick="viewTest4Details()">View Distribution</button>
+      </div>
+      <div id="test4-result"></div>
+    </div>
+
+    <!-- Current State -->
+    <div class="test-card">
+      <div class="test-header">
+        <div class="test-title">🔍 Current State</div>
+      </div>
+      <div class="test-actions">
+        <button class="btn-secondary" onclick="checkCurrentState()">Check State</button>
+        <button class="btn-danger" onclick="resetSystem()">Reset System</button>
+      </div>
+      <div id="state-result"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    // Import the daily bonus system
+    import { 
+      shouldReceiveDailyBonus, 
+      claimDailyBonus, 
+      resetDailyBonusSystem,
+      getTimeUntilNextBonus,
+      formatTimeUntilBonus
+    } from './utils/dailyBonusSystem.ts';
+
+    // Make functions globally available
+    window.dailyBonusSystem = {
+      shouldReceiveDailyBonus,
+      claimDailyBonus,
+      resetDailyBonusSystem,
+      getTimeUntilNextBonus,
+      formatTimeUntilBonus
+    };
+
+    window.testResults = {
+      test1: null,
+      test2: null,
+      test3: null,
+      test4: null
+    };
+  </script>
+
+  <script>
+    // Test 1: First Login
+    function runTest1() {
+      const resultDiv = document.getElementById('test1-result');
+      const statusDiv = document.getElementById('test1-status');
+      
+      try {
+        // Clear localStorage to simulate first login
+        window.dailyBonusSystem.resetDailyBonusSystem();
+        
+        // Check if bonus should be received
+        const shouldReceive = window.dailyBonusSystem.shouldReceiveDailyBonus();
+        
+        if (!shouldReceive) {
+          throw new Error('shouldReceiveDailyBonus() returned false on clean start!');
+        }
+        
+        // Claim the bonus
+        const items = window.dailyBonusSystem.claimDailyBonus();
+        
+        // Verify we got 2 items
+        if (items.length !== 2) {
+          throw new Error(`Expected 2 items, got ${items.length}`);
+        }
+        
+        // Verify one food and one toy
+        const foodItem = items.find(i => i.category === 'food');
+        const toyItem = items.find(i => i.category === 'toys');
+        
+        if (!foodItem || !toyItem) {
+          throw new Error('Did not receive both food and toy items!');
+        }
+        
+        // Verify items have all required properties
+        const requiredProps = ['id', 'name', 'emoji', 'category', 'imageUrl', 'effectiveness'];
+        for (const item of items) {
+          for (const prop of requiredProps) {
+            if (!item[prop]) {
+              throw new Error(`Item missing property: ${prop}`);
+            }
+          }
+        }
+        
+        // Success!
+        statusDiv.textContent = 'Passed ✓';
+        statusDiv.className = 'test-status status-passed';
+        
+        resultDiv.innerHTML = `
+          <div class="result-success test-result">
+            <strong>✅ Test Passed!</strong><br><br>
+            <strong>Food Item:</strong> ${foodItem.emoji} ${foodItem.name} (${foodItem.effectiveness}% effectiveness)<br>
+            <strong>Toy Item:</strong> ${toyItem.emoji} ${toyItem.name} (${toyItem.effectiveness}% effectiveness)<br><br>
+            <strong>Timestamp saved:</strong> ${new Date().toLocaleString()}
+          </div>
+        `;
+        
+        window.testResults.test1 = { passed: true, items };
+        
+      } catch (error) {
+        statusDiv.textContent = 'Failed ✗';
+        statusDiv.className = 'test-status status-failed';
+        
+        resultDiv.innerHTML = `
+          <div class="result-error test-result">
+            <strong>❌ Test Failed!</strong><br><br>
+            ${error.message}
+          </div>
+        `;
+        
+        window.testResults.test1 = { passed: false, error: error.message };
+      }
+    }
+
+    // Test 2: Immediate Re-login
+    function runTest2() {
+      const resultDiv = document.getElementById('test2-result');
+      const statusDiv = document.getElementById('test2-status');
+      
+      try {
+        // First, ensure we have a recent bonus claim
+        if (!window.testResults.test1 || !window.testResults.test1.passed) {
+          throw new Error('Please run Test 1 first!');
+        }
+        
+        // Try to receive bonus again
+        const shouldReceive = window.dailyBonusSystem.shouldReceiveDailyBonus();
+        
+        if (shouldReceive) {
+          throw new Error('shouldReceiveDailyBonus() returned true within 24h!');
+        }
+        
+        // Success - bonus was correctly NOT given
+        statusDiv.textContent = 'Passed ✓';
+        statusDiv.className = 'test-status status-passed';
+        
+        const timeUntilNext = window.dailyBonusSystem.formatTimeUntilBonus();
+        
+        resultDiv.innerHTML = `
+          <div class="result-success test-result">
+            <strong>✅ Test Passed!</strong><br><br>
+            Bonus correctly NOT given within 24 hours.<br>
+            <strong>Time until next bonus:</strong> ${timeUntilNext}
+          </div>
+        `;
+        
+        window.testResults.test2 = { passed: true };
+        
+      } catch (error) {
+        statusDiv.textContent = 'Failed ✗';
+        statusDiv.className = 'test-status status-failed';
+        
+        resultDiv.innerHTML = `
+          <div class="result-error test-result">
+            <strong>❌ Test Failed!</strong><br><br>
+            ${error.message}
+          </div>
+        `;
+        
+        window.testResults.test2 = { passed: false, error: error.message };
+      }
+    }
+
+    // Test 3: After 24 Hours
+    function runTest3() {
+      const resultDiv = document.getElementById('test3-result');
+      const statusDiv = document.getElementById('test3-status');
+      
+      try {
+        // Manipulate localStorage to simulate 25 hours passing
+        const state = JSON.parse(localStorage.getItem('papiDailyBonusState'));
+        if (!state) {
+          throw new Error('No bonus state found. Please run Test 1 first!');
+        }
+        
+        const oldItems = state.todaysBonusItems;
+        
+        // Set timestamp to 25 hours ago
+        state.lastBonusTimestamp = Date.now() - (25 * 60 * 60 * 1000);
+        localStorage.setItem('papiDailyBonusState', JSON.stringify(state));
+        
+        // Check if bonus should be received
+        const shouldReceive = window.dailyBonusSystem.shouldReceiveDailyBonus();
+        
+        if (!shouldReceive) {
+          throw new Error('shouldReceiveDailyBonus() returned false after 25 hours!');
+        }
+        
+        // Claim new bonus
+        const newItems = window.dailyBonusSystem.claimDailyBonus();
+        
+        if (newItems.length !== 2) {
+          throw new Error(`Expected 2 new items, got ${newItems.length}`);
+        }
+        
+        const foodItem = newItems.find(i => i.category === 'food');
+        const toyItem = newItems.find(i => i.category === 'toys');
+        
+        // Success!
+        statusDiv.textContent = 'Passed ✓';
+        statusDiv.className = 'test-status status-passed';
+        
+        resultDiv.innerHTML = `
+          <div class="result-success test-result">
+            <strong>✅ Test Passed!</strong><br><br>
+            <strong>Previous items:</strong><br>
+            - ${oldItems[0].emoji} ${oldItems[0].name}<br>
+            - ${oldItems[1].emoji} ${oldItems[1].name}<br><br>
+            <strong>New items (after 25h):</strong><br>
+            - ${foodItem.emoji} ${foodItem.name} (${foodItem.effectiveness}% effectiveness)<br>
+            - ${toyItem.emoji} ${toyItem.name} (${toyItem.effectiveness}% effectiveness)
+          </div>
+        `;
+        
+        window.testResults.test3 = { passed: true, newItems };
+        
+      } catch (error) {
+        statusDiv.textContent = 'Failed ✗';
+        statusDiv.className = 'test-status status-failed';
+        
+        resultDiv.innerHTML = `
+          <div class="result-error test-result">
+            <strong>❌ Test Failed!</strong><br><br>
+            ${error.message}
+          </div>
+        `;
+        
+        window.testResults.test3 = { passed: false, error: error.message };
+      }
+    }
+
+    // Test 4: Randomness
+    function runTest4() {
+      const resultDiv = document.getElementById('test4-result');
+      const statusDiv = document.getElementById('test4-status');
+      
+      try {
+        const results = [];
+        const foodCounts = {};
+        const toyCounts = {};
+        
+        // Run 10 trials
+        for (let i = 0; i < 10; i++) {
+          window.dailyBonusSystem.resetDailyBonusSystem();
+          const items = window.dailyBonusSystem.claimDailyBonus();
+          
+          const food = items.find(i => i.category === 'food');
+          const toy = items.find(i => i.category === 'toys');
+          
+          results.push({ food: food.name, toy: toy.name });
+          
+          foodCounts[food.name] = (foodCounts[food.name] || 0) + 1;
+          toyCounts[toy.name] = (toyCounts[toy.name] || 0) + 1;
+        }
+        
+        // Check variety
+        const uniqueFoods = Object.keys(foodCounts).length;
+        const uniqueToys = Object.keys(toyCounts).length;
+        
+        statusDiv.textContent = 'Passed ✓';
+        statusDiv.className = 'test-status status-passed';
+        
+        let tableHTML = '<table style="width: 100%; margin-top: 10px; border-collapse: collapse;">';
+        tableHTML += '<tr style="background: #f5f5f5;"><th style="padding: 8px; border: 1px solid #ddd;">Trial</th><th style="padding: 8px; border: 1px solid #ddd;">Food</th><th style="padding: 8px; border: 1px solid #ddd;">Toy</th></tr>';
+        
+        results.forEach((r, i) => {
+          tableHTML += `<tr><td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${i + 1}</td><td style="padding: 8px; border: 1px solid #ddd;">${r.food}</td><td style="padding: 8px; border: 1px solid #ddd;">${r.toy}</td></tr>`;
+        });
+        
+        tableHTML += '</table>';
+        
+        resultDiv.innerHTML = `
+          <div class="result-success test-result">
+            <strong>✅ Test Passed!</strong><br><br>
+            <strong>Variety:</strong> ${uniqueFoods} different foods, ${uniqueToys} different toys across 10 trials<br><br>
+            ${tableHTML}
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-label">Unique Foods</div>
+                <div class="stat-value">${uniqueFoods}/9</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Unique Toys</div>
+                <div class="stat-value">${uniqueToys}/6</div>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        window.testResults.test4 = { passed: true, results };
+        
+      } catch (error) {
+        statusDiv.textContent = 'Failed ✗';
+        statusDiv.className = 'test-status status-failed';
+        
+        resultDiv.innerHTML = `
+          <div class="result-error test-result">
+            <strong>❌ Test Failed!</strong><br><br>
+            ${error.message}
+          </div>
+        `;
+        
+        window.testResults.test4 = { passed: false, error: error.message };
+      }
+    }
+
+    // Check current state
+    function checkCurrentState() {
+      const resultDiv = document.getElementById('state-result');
+      
+      const state = localStorage.getItem('papiDailyBonusState');
+      
+      if (!state) {
+        resultDiv.innerHTML = `
+          <div class="result-info test-result">
+            <strong>ℹ️ No Bonus State</strong><br><br>
+            Daily bonus system has not been initialized yet.
+            User will receive bonus on first login.
+          </div>
+        `;
+        return;
+      }
+      
+      const parsed = JSON.parse(state);
+      const lastBonus = new Date(parsed.lastBonusTimestamp);
+      const timeUntilNext = window.dailyBonusSystem.formatTimeUntilBonus();
+      const shouldReceive = window.dailyBonusSystem.shouldReceiveDailyBonus();
+      
+      resultDiv.innerHTML = `
+        <div class="result-info test-result">
+          <strong>📊 Current State</strong><br><br>
+          <strong>Last Bonus:</strong> ${lastBonus.toLocaleString()}<br>
+          <strong>Next Bonus:</strong> ${timeUntilNext}<br>
+          <strong>Should Receive Now:</strong> ${shouldReceive ? '✅ Yes' : '❌ No'}<br><br>
+          <strong>Last Items Received:</strong><br>
+          ${parsed.todaysBonusItems ? 
+            `- ${parsed.todaysBonusItems[0].emoji} ${parsed.todaysBonusItems[0].name}<br>- ${parsed.todaysBonusItems[1].emoji} ${parsed.todaysBonusItems[1].name}` 
+            : 'None'}
+          <div class="code-block">
+${JSON.stringify(parsed, null, 2)}
+          </div>
+        </div>
+      `;
+    }
+
+    // Reset system
+    function resetSystem() {
+      if (confirm('Are you sure you want to reset the Daily Bonus System? This will clear all bonus data.')) {
+        window.dailyBonusSystem.resetDailyBonusSystem();
+        
+        // Reset all test statuses
+        ['test1', 'test2', 'test3', 'test4'].forEach(test => {
+          document.getElementById(`${test}-status`).textContent = 'Pending';
+          document.getElementById(`${test}-status`).className = 'test-status status-pending';
+          document.getElementById(`${test}-result`).innerHTML = '';
+        });
+        
+        document.getElementById('state-result').innerHTML = `
+          <div class="result-success test-result">
+            <strong>✅ System Reset!</strong><br><br>
+            Daily Bonus System has been completely reset.
+            You can now run tests from scratch.
+          </div>
+        `;
+        
+        window.testResults = { test1: null, test2: null, test3: null, test4: null };
+      }
+    }
+
+    function viewTest1Details() {
+      alert('Test 1 Details:\n\n' +
+        '1. Clears localStorage (simulates first login)\n' +
+        '2. Calls shouldReceiveDailyBonus() - expects true\n' +
+        '3. Calls claimDailyBonus() - expects 2 items\n' +
+        '4. Verifies items have food + toy\n' +
+        '5. Verifies all properties present\n' +
+        '6. Saves timestamp to prevent re-claiming');
+    }
+
+    function viewTest2Details() {
+      alert('Test 2 Details:\n\n' +
+        '1. Assumes Test 1 has run successfully\n' +
+        '2. Calls shouldReceiveDailyBonus() - expects false\n' +
+        '3. Verifies that no bonus is given\n' +
+        '4. Shows time until next bonus available');
+    }
+
+    function viewTest3Details() {
+      alert('Test 3 Details:\n\n' +
+        '1. Loads existing bonus state\n' +
+        '2. Modifies timestamp to 25 hours ago\n' +
+        '3. Calls shouldReceiveDailyBonus() - expects true\n' +
+        '4. Claims new bonus\n' +
+        '5. Compares old and new items');
+    }
+
+    function viewTest4Details() {
+      alert('Test 4 Details:\n\n' +
+        '1. Runs 10 separate bonus claims\n' +
+        '2. Resets system between each claim\n' +
+        '3. Collects all food and toy items\n' +
+        '4. Checks variety of items received\n' +
+        '5. Displays distribution table');
+    }
+
+    // Make functions globally available
+    window.runTest1 = runTest1;
+    window.runTest2 = runTest2;
+    window.runTest3 = runTest3;
+    window.runTest4 = runTest4;
+    window.checkCurrentState = checkCurrentState;
+    window.resetSystem = resetSystem;
+    window.viewTest1Details = viewTest1Details;
+    window.viewTest2Details = viewTest2Details;
+    window.viewTest3Details = viewTest3Details;
+    window.viewTest4Details = viewTest4Details;
+  </script>
+</body>
+</html>

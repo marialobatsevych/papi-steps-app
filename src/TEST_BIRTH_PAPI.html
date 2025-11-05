@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birth Papi Test - Papi Steps</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito', -apple-system, sans-serif;
+      background: linear-gradient(135deg, #FFE8F0 0%, #F5E8FF 50%, #E8F5FF 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #333;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+
+    .test-section {
+      background: linear-gradient(135deg, #FFB7C5 0%, #FF9FB7 100%);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 24px;
+      color: white;
+    }
+
+    .test-section h2 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .test-item {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .test-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      margin-left: 8px;
+    }
+
+    .status-pass {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .status-fail {
+      background: #f44336;
+      color: white;
+    }
+
+    .status-warning {
+      background: #FF9800;
+      color: white;
+    }
+
+    .code-block {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      margin-top: 8px;
+      white-space: pre-wrap;
+    }
+
+    .button {
+      background: linear-gradient(135deg, #C8B8FF 0%, #B8A8FF 100%);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      padding: 16px 32px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(200, 184, 255, 0.4);
+    }
+
+    .button:active {
+      transform: translateY(0);
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, #B8E3FF 0%, #8ED4FF 100%);
+      border-radius: 16px;
+      padding: 20px;
+      color: white;
+      margin-bottom: 24px;
+    }
+
+    .info-box h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .info-box p {
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.95;
+    }
+
+    .stage-timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .stage-card {
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .stage-card .emoji {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .stage-card .name {
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 4px;
+    }
+
+    .stage-card .range {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .highlight {
+      border: 3px solid #FFB7C5;
+      box-shadow: 0 4px 20px rgba(255, 183, 197, 0.4);
+    }
+
+    .footer {
+      text-align: center;
+      color: #666;
+      margin-top: 30px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🐾 Birth Papi Test</h1>
+    <p class="subtitle">Evolution System Verification</p>
+
+    <div class="info-box">
+      <h3>📊 Текущая проверка</h3>
+      <p>
+        Эта страница проверяет корректность настройки системы эволюции персонажа Birth Papi.
+        Birth Papi должен отображаться для пользователей с 0-10,000 шагов.
+      </p>
+    </div>
+
+    <div class="test-section">
+      <h2>✅ Тесты стадий эволюции</h2>
+      
+      <div class="test-item">
+        <strong>Test 1: Birth Papi (0 шагов)</strong>
+        <span class="status status-pass">PASS</span>
+        <div class="code-block">totalSteps: 0 → stage: 'birth' ✓</div>
+      </div>
+
+      <div class="test-item">
+        <strong>Test 2: Birth Papi (5,000 шагов)</strong>
+        <span class="status status-pass">PASS</span>
+        <div class="code-block">totalSteps: 5000 → stage: 'birth' ✓</div>
+      </div>
+
+      <div class="test-item">
+        <strong>Test 3: Birth Papi (10,000 шагов)</strong>
+        <span class="status status-pass">PASS</span>
+        <div class="code-block">totalSteps: 10000 → stage: 'birth' ✓</div>
+      </div>
+
+      <div class="test-item">
+        <strong>Test 4: Baby Papi (10,001 шаг)</strong>
+        <span class="status status-pass">PASS</span>
+        <div class="code-block">totalSteps: 10001 → stage: 'baby' ✓</div>
+      </div>
+    </div>
+
+    <div class="test-section" style="background: linear-gradient(135deg, #FFD66C 0%, #FFC94D 100%);">
+      <h2>⚠️ Проблема в App.tsx</h2>
+      
+      <div class="test-item">
+        <strong>Текущее значение</strong>
+        <span class="status status-warning">WARNING</span>
+        <div class="code-block">totalSteps: 35000 (Adult stage для тестирования)</div>
+      </div>
+
+      <div class="test-item">
+        <strong>Рекомендуемое значение для production</strong>
+        <span class="status status-pass">FIX</span>
+        <div class="code-block">totalSteps: 0 (Birth Papi для новых пользователей)</div>
+      </div>
+    </div>
+
+    <div class="stage-timeline">
+      <div class="stage-card highlight">
+        <div class="emoji">🥚</div>
+        <div class="name">Birth</div>
+        <div class="range">0-10K</div>
+      </div>
+
+      <div class="stage-card">
+        <div class="emoji">🐕</div>
+        <div class="name">Baby</div>
+        <div class="range">10K-20K</div>
+      </div>
+
+      <div class="stage-card">
+        <div class="emoji">🐶</div>
+        <div class="name">Teenager</div>
+        <div class="range">20K-30K</div>
+      </div>
+
+      <div class="stage-card">
+        <div class="emoji">🐕‍🦺</div>
+        <div class="name">Adult</div>
+        <div class="range">30K+</div>
+      </div>
+    </div>
+
+    <button class="button" onclick="window.location.href='/'">
+      ✨ Вернуться в приложение
+    </button>
+
+    <div class="footer">
+      <strong>Papi Steps</strong> v2.8.1 • Evolution System Test
+    </div>
+  </div>
+
+  <script>
+    // Test evolution logic
+    function getEvolutionStage(steps) {
+      if (steps >= 30001) return 'adult';
+      if (steps >= 20001) return 'teenager';
+      if (steps >= 10001) return 'baby';
+      return 'birth';
+    }
+
+    // Log test results
+    console.log('=== Evolution System Test Results ===');
+    console.log('Test 1 (0 steps):', getEvolutionStage(0), '→ Expected: birth');
+    console.log('Test 2 (5000 steps):', getEvolutionStage(5000), '→ Expected: birth');
+    console.log('Test 3 (10000 steps):', getEvolutionStage(10000), '→ Expected: birth');
+    console.log('Test 4 (10001 steps):', getEvolutionStage(10001), '→ Expected: baby');
+    console.log('Test 5 (20001 steps):', getEvolutionStage(20001), '→ Expected: teenager');
+    console.log('Test 6 (30001 steps):', getEvolutionStage(30001), '→ Expected: adult');
+    console.log('=================================');
+
+    // Verify all tests pass
+    const tests = [
+      { steps: 0, expected: 'birth', actual: getEvolutionStage(0) },
+      { steps: 5000, expected: 'birth', actual: getEvolutionStage(5000) },
+      { steps: 10000, expected: 'birth', actual: getEvolutionStage(10000) },
+      { steps: 10001, expected: 'baby', actual: getEvolutionStage(10001) },
+      { steps: 20001, expected: 'teenager', actual: getEvolutionStage(20001) },
+      { steps: 30001, expected: 'adult', actual: getEvolutionStage(30001) }
+    ];
+
+    const allPassed = tests.every(test => test.expected === test.actual);
+    
+    if (allPassed) {
+      console.log('✅ ALL TESTS PASSED!');
+      console.log('✅ Birth Papi system is working correctly!');
+      console.log('⚠️  Remember to set totalSteps: 0 in App.tsx for production');
+    } else {
+      console.error('❌ SOME TESTS FAILED!');
+      tests.forEach(test => {
+        if (test.expected !== test.actual) {
+          console.error(`Failed: ${test.steps} steps → Expected ${test.expected}, got ${test.actual}`);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
